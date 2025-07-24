@@ -69,4 +69,38 @@ export const eventRouter = createTRPCRouter({
         },
       });
     }),
+
+  // Delete an event (performance)
+  delete: publicProcedure
+    .input(z.object({ eventId: z.number() }))
+    .mutation(async ({ input }) => {
+      return db.event.delete({
+        where: { id: input.eventId },
+      });
+    }),
+
+  // Update an event (performance)
+  update: publicProcedure
+    .input(
+      z.object({
+        eventId: z.number(),
+        name: z.string().min(1),
+        date: z.string(), // ISO string
+        time: z.string(),
+        location: z.string(),
+        pay: z.number(),
+      }),
+    )
+    .mutation(async ({ input }) => {
+      return db.event.update({
+        where: { id: input.eventId },
+        data: {
+          name: input.name,
+          date: new Date(input.date),
+          time: input.time,
+          location: input.location,
+          pay: input.pay,
+        },
+      });
+    }),
 });
