@@ -17,7 +17,7 @@ export function EventManager() {
   });
   const createEvent = api.event.create.useMutation({
     onSuccess: () => {
-      refetch();
+      void refetch();
       setEventForm({ name: "", date: "", time: "", location: "", pay: "" });
     },
   });
@@ -27,22 +27,22 @@ export function EventManager() {
   const [registerEventId, setRegisterEventId] = useState<number | null>(null);
   const register = api.event.register.useMutation({
     onSuccess: () => {
-      refetch();
+      void refetch();
       setRegisterName("");
       setRegisterEventId(null);
     },
   });
   const unregister = api.event.unregister.useMutation({
-    onSuccess: () => refetch(),
+    onSuccess: () => void refetch(),
   });
 
   const deleteEvent = api.event.delete.useMutation({
-    onSuccess: () => refetch(),
+    onSuccess: () => void refetch(),
   });
 
   const updateEvent = api.event.update.useMutation({
     onSuccess: () => {
-      refetch();
+      void refetch();
       setEditingEventId(null);
     },
   });
@@ -265,23 +265,28 @@ export function EventManager() {
             <div className="mb-2">
               <span className="font-semibold">Registered Members:</span>
               <ul className="ml-6 list-disc">
-                {event.registrations.map((reg: any) => (
-                  <li key={reg.id} className="flex items-center gap-2 text-sm">
-                    {reg.memberName}
-                    <button
-                      className="rounded px-1 py-0.5 text-xs text-red-500 transition hover:underline active:scale-95"
-                      onClick={() =>
-                        unregister.mutate({
-                          eventId: event.id,
-                          memberName: reg.memberName,
-                        })
-                      }
-                      disabled={unregister.isPending}
+                {event.registrations.map(
+                  (reg: { id: number; memberName: string }) => (
+                    <li
+                      key={reg.id}
+                      className="flex items-center gap-2 text-sm"
                     >
-                      Remove
-                    </button>
-                  </li>
-                ))}
+                      {reg.memberName}
+                      <button
+                        className="rounded px-1 py-0.5 text-xs text-red-500 transition hover:underline active:scale-95"
+                        onClick={() =>
+                          unregister.mutate({
+                            eventId: event.id,
+                            memberName: reg.memberName,
+                          })
+                        }
+                        disabled={unregister.isPending}
+                      >
+                        Remove
+                      </button>
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
             <form
