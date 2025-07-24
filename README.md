@@ -1,29 +1,78 @@
-# Create T3 App
+# Lion Dance Event Signup App
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A web application for lion dance teams to manage performances and allow members to sign up for events.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- Create, edit, and delete performances (events)
+- Each event includes: name, date, time, location, and pay
+- Members can register for events by submitting their name
+- Members can remove themselves from events
+- View all registered members for each event
+- Mobile-friendly, responsive UI
+- Built with modern technologies: Next.js, TypeScript, Prisma, Supabase, tRPC, NextAuth
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Tech Stack
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- **Next.js** (App Router)
+- **TypeScript**
+- **Prisma** (ORM)
+- **Supabase** (Postgres database)
+- **tRPC** (type-safe API)
+- **NextAuth** (authentication, optional for admin features)
+- **Tailwind CSS** (for styling)
 
-## Learn More
+## Setup Instructions
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+### 1. Clone the Repository
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+```bash
+git clone <repo-url>
+cd vcdc-lions
+```
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+### 2. Install Dependencies
 
-## How do I deploy this?
+```bash
+npm install
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+### 3. Set Up Supabase
+
+- Create a project at [Supabase](https://app.supabase.com/)
+- Get your database connection string and API keys from the Supabase dashboard
+- Copy `.env.example` to `.env` and fill in the required values:
+
+```
+DATABASE_URL=postgres://username:password@host:port/database
+NEXT_PUBLIC_SUPABASE_URL=https://your-project-ref.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+### 4. Run Prisma Migrations
+
+```bash
+npx prisma generate
+npx prisma migrate dev --name init
+```
+
+### 5. Start the Development Server
+
+```bash
+npm run dev
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to use the app.
+
+## Usage
+
+- **Create Event:** Fill out the event creation form with name, date, time, location, and pay.
+- **Edit/Delete Event:** Use the Edit or Delete buttons on each event card.
+- **Register for Event:** Enter your name under the event you want to join and click Register.
+- **Remove Registration:** Click Remove next to your name in the registered members list.
+
+## Customization
+
+- To restrict event creation/editing/deletion to admins, enable and configure NextAuth.
+- You can further style the app using Tailwind CSS in `src/styles/globals.css`.
