@@ -228,7 +228,21 @@ export function EventManager() {
               <div className="mb-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-1 text-base font-semibold whitespace-pre-line">
                   <span className="text-lg">{event.name}</span>
-                  <span>Date: {new Date(event.date).toLocaleDateString()}</span>
+                  <span>
+                    Date:{" "}
+                    {event.date
+                      ? (() => {
+                          const d = new Date(event.date);
+                          const month = String(d.getUTCMonth() + 1).padStart(
+                            2,
+                            "0",
+                          );
+                          const day = String(d.getUTCDate()).padStart(2, "0");
+                          const year = d.getUTCFullYear();
+                          return `${month}/${day}/${year}`;
+                        })()
+                      : ""}
+                  </span>
                   <span>Time: {event.time}</span>
                   <span>Location: {event.location}</span>
                   <span>Pay: ${event.pay.toFixed(2)}</span>
